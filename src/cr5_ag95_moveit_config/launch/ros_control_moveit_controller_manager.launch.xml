@@ -1,0 +1,9 @@
+<launch>
+	<!-- Define MoveIt controller manager plugin -->
+	<!-- 改这里！！！！！！！！！！！！！！！！！ -->
+	<param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+
+
+	  <!--load controller_list-->   
+	  <rosparam file="$(find cr5_ag95_moveit_config)/config/controllers.yaml"/>
+</launch>

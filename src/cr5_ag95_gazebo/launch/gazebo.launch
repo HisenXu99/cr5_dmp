@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  <arg name="DOBOT_TYPE" default="$(env DOBOT_TYPE)" />
+  <!--这些参数用来确定插入机械臂的位置和姿态-->
+  <arg name="value1" default="0" />
+  <arg name="value2" default="0" />
+  <arg name="value3" default="0.965" />
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="3.1415926"/>
+  
+  <include file="$(find cr5_ag95_gazebo)/launch/$(arg DOBOT_TYPE)_robot_description.xml"/>
+  <include file="$(find cr5_ag95_gazebo)/launch/robot_control.xml"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="/home/hisen/Project/Gazebo/World/catch.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+  <node 
+     name="urdf_spawner" 
+     pkg="gazebo_ros" 
+     type="spawn_model" 
+     respawn="false" output="screen"
+     args="-urdf -param robot_description -model $(arg DOBOT_TYPE)_robot -x $(arg value1) -y $(arg value2) -z $(arg value3) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+</launch>

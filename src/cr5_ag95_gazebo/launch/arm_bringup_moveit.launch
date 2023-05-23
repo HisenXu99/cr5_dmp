@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  
+  <include file="$(find cr5_ag95_gazebo)/launch/gazebo.launch"/>
+
+  <include file="$(find cr5_ag95_moveit_config)/launch/moveit_planning_execution.launch"/>
+</launch>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="cr5_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find cr5_ag95_gazebo)/urdf/cr5_robot.xacro"/>
+    <xacro:include filename="$(find dh_robotics_ag95_description)/urdf/dh_robotics_ag95_gripper.urdf.xacro"/>
+
+    <!-- Gripper -->
+    <xacro:dh_robotics_ag95_gripper prefix="" parent="Link6" >
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:dh_robotics_ag95_gripper>
+</robot>

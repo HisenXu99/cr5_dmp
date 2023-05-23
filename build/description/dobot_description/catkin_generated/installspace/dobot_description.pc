@@ -1,0 +1,8 @@
+prefix=/home/hisen/Project/ROS/cr5_dmp/install
+
+Name: dobot_description
+Description: Description of dobot_description
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
