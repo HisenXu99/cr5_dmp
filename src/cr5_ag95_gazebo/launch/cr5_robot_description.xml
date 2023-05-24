@@ -6,7 +6,7 @@
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="false"/>
     <!-- <rosparam param="/source_list">[cr5_robot/joint_states]</rosparam> -->
-    <rosparam param="/source_list">[/joint_states]</rosparam>   
+    <rosparam param="/source_list">[cr5_robot/joint_states]</rosparam>   
   </node>
   <!--Publish robot state to TF-->
 
