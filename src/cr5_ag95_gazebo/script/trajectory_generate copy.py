@@ -8,7 +8,7 @@ from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryG
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 import sys
-sys.path.append('./dmp')
+sys.path.append('cr5_ag95_gazebo/script/dmp')
 import process
 
 class TrajectoryDemo():
@@ -48,24 +48,31 @@ class TrajectoryDemo():
         # arm_trajectory.points[0].velocities = [0.0 for i in arm_joints]
         # arm_trajectory.points[0].accelerations = [0.0 for i in arm_joints]
         # arm_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+        print()
 
-        for i,row in enumerate(trajectory):   #data
+        for i,val in enumerate(trajectory[0]):   #data
             arm_trajectory.points.append(JointTrajectoryPoint())
             positions=[]
             velocities=[]
             accelerations= []
-            for j,point in enumerate(row):   #type
-
-                if(j%3==1): 
-                    positions.append(point)
-                if(j%3==0): 
-                    velocities.append(point)
-                if(j%3==2): 
-                    accelerations.append(point)
+            for j,_ in enumerate(trajectory[0][0]):   #type
+                positions.append(trajectory[0][i][j])
+                velocities.append(trajectory[1][i][j])
+                accelerations.append(trajectory[2][i][j])
+            # for j,point in enumerate(row):   #type
+            # positions.append(point)
+            # for j,point in enumerate(row):   #type
+            #     if(j%3==0): 
+            #         positions.append(point)
+            #     if(j%3==0): 
+            #         velocities.append(point)
+            #     if(j%3==2): 
+            #         accelerations.append(point)
             arm_trajectory.points[i].positions = positions
             arm_trajectory.points[i].velocities = velocities
             arm_trajectory.points[i].accelerations = accelerations
-            arm_trajectory.points[i].time_from_start = rospy.Duration(0.1*i)
+            arm_trajectory.points[i].time_from_start = rospy.Duration(0.005*i)
+            print(arm_trajectory.points[i])
 
         print(arm_trajectory.points)
     

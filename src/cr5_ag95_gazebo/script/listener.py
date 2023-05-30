@@ -9,9 +9,9 @@ def callback_function(data):
     print("1")
     with open("/home/hisen/Project/ROS/cr5_dmp/src/cr5_ag95_gazebo/script/record.txt","a") as file:
         for point in points:
-            file.write(str(point.velocities) + " "+"\n")
-            file.write(str(point.positions) + " "+"\n")
-            file.write(str(point.accelerations) + " "+"\n")
+            file.write(' '.join(str(i) for i in point.positions) + "\n")
+            file.write(' '.join(str(i) for i in point.velocities) +"\n")
+            file.write(' '.join(str(i) for i in point.accelerations) +"\n")
     # print(data)
 
 def main():

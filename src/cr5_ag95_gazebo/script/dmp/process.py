@@ -45,30 +45,32 @@ def openreadtxt(file_name):
         exec('joints_all.append(joint{}_positions)'.format(i))
         exec('joints_all.append(joint{}_velocities)'.format(i))
         exec('joints_all.append(joint{}_accelerations)'.format(i))
-        exec('joints_all_position.append(joint{}_velocities)'.format(i))
+        exec('joints_all_position.append(joint{}_positions)'.format(i))
     return joints_all_position
 
 def generate_figure(dmp,reference_trajectory):
-    reproduced_trajectory, _, _ = dmp.reproduce()
+    reproduced_positions, reproduced_velocities, reproduced_accelerations = dmp.reproduce()
+    print(reproduced_positions[0])
+    print(reproduced_positions.shape)
     fig = plt.figure()
     ax=Axes3D(fig)
     plt.plot(reference_trajectory[0,:], reference_trajectory[1,:], reference_trajectory[2,:], 'g', label='reference')
-    plt.plot(reproduced_trajectory[:,0], reproduced_trajectory[:,1], reproduced_trajectory[:,2], 'r--', label='reproduce')
+    plt.plot(reproduced_positions[:,0], reproduced_positions[:,1], reproduced_positions[:,2], 'r--', label='reproduce')
     plt.legend()
     # fig = plt.figure()
     plt.subplot(311)
     plt.plot(reference_trajectory[0,:], 'g', label='reference')
-    plt.plot(reproduced_trajectory[:,0], 'r--', label='reproduce')
+    plt.plot(reproduced_positions[:,0], 'r--', label='reproduce')
     plt.legend()
 
     plt.subplot(312)
     plt.plot(reference_trajectory[1,:], 'g', label='reference')
-    plt.plot(reproduced_trajectory[:,1], 'r--', label='reproduce')
+    plt.plot(reproduced_positions[:,1], 'r--', label='reproduce')
     plt.legend()
 
     plt.subplot(313)
     plt.plot(reference_trajectory[2,:], 'g', label='reference')
-    plt.plot(reproduced_trajectory[:,2], 'r--', label='reproduce')
+    plt.plot(reproduced_positions[:,2], 'r--', label='reproduce')
     plt.legend()
     plt.draw()
     plt.xlabel('x')
@@ -78,25 +80,25 @@ def generate_figure(dmp,reference_trajectory):
     pass
 
 def call():
-    trajectory = openreadtxt('record.txt')
+    trajectory = openreadtxt('cr5_ag95_gazebo/script/record.txt')
     reference_trajectory = np.array(trajectory)
     data_dim = reference_trajectory.shape[0]
     data_len = reference_trajectory.shape[1]
     y0 = reference_trajectory[:,0].copy()
     dmp = dmp_discrete(n_dmps=data_dim, n_bfs=1000, dt=1.0/data_len)
     dmp.learning(reference_trajectory)
-    reproduced_trajectory, _, _ = dmp.reproduce()
-    return reproduced_trajectory
+    goal_cur=[-0.8225339659315988,-1.1857778578505944,-0.07794012072289684,-0.2638444313961663,-0.2258547278358778,-0.901338379450232662]
+    reproduced_positions, reproduced_velocities, reproduced_accelerations = dmp.reproduce(goal=goal_cur)
+    trajectory=[reproduced_positions, reproduced_velocities, reproduced_accelerations]
+    return trajectory
     pass
 
 if __name__=="__main__":
-    trajectory = openreadtxt('cr5_ag95_gazebo/script/dmp/record.txt')
+    trajectory = openreadtxt('cr5_ag95_gazebo/script/record.txt')
     print(trajectory)
     reference_trajectory = np.array(trajectory)
     data_dim = reference_trajectory.shape[0]
     data_len = reference_trajectory.shape[1]
-    print(data_dim)
-    print(data_len) 
     y0 = reference_trajectory[:,0].copy()
     dmp = dmp_discrete(n_dmps=data_dim, n_bfs=1000, dt=1.0/data_len)
     dmp.learning(reference_trajectory)
