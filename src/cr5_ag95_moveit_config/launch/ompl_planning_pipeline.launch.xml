@@ -2,7 +2,8 @@
 
   <!-- The request adapters (plugins) used when planning with OMPL. ORDER MATTERS! -->
   <arg name="planning_adapters"
-       default="default_planner_request_adapters/LimitMaxCartesianLinkSpeed
+       default="industrial_trajectory_filters/UniformSampleFilter                
+                default_planner_request_adapters/LimitMaxCartesianLinkSpeed
                 default_planner_request_adapters/AddTimeParameterization
                 default_planner_request_adapters/ResolveConstraintFrames
                 default_planner_request_adapters/FixWorkspaceBounds
@@ -10,6 +11,8 @@
                 default_planner_request_adapters/FixStartStateCollision
                 default_planner_request_adapters/FixStartStatePathConstraints"
                 />
+  <param name="sample_duration" value="0.2"/>
+                <!-- 加入了均匀采样过滤器 industrial_trajectory_filters对应的，并设置了采样时间参数，by hisen-->
 
   <arg name="start_state_max_bounds_error" default="0.1" />
   <arg name="jiggle_fraction" default="0.05" />

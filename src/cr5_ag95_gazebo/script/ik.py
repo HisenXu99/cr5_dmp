@@ -1,24 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright 2019 Wuhan PS-Micro Technology Co., Itd.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import rospy, sys
 import moveit_commander
-from geometry_msgs.msg import PoseStamped, Pose
+from moveit_msgs.msg import RobotTrajectory
+from trajectory_msgs.msg import JointTrajectoryPoint
 
+from geometry_msgs.msg import PoseStamped, Pose
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 class MoveItIkDemo:
     def __init__(self):
@@ -50,9 +39,9 @@ class MoveItIkDemo:
         arm.set_max_velocity_scaling_factor(0.5)
 
         # 控制机械臂先回到初始化位置
-        arm.set_named_target('home_arm')
+        arm.set_named_target('home')
         arm.go()
-        rospy.sleep(1)
+        rospy.sleep(2)
                
         # 设置机械臂工作空间中的目标位姿，位置使用x、y、z坐标描述，
         # 姿态使用四元数描述，基于base_link坐标系
@@ -74,7 +63,7 @@ class MoveItIkDemo:
         arm.set_pose_target(target_pose, end_effector_link)
         
         # 规划运动路径
-        plan_success, traj, planning_time, error_code = arm.plan() 
+        traj = arm.plan()
         
         # 按照规划的运动路径控制机械臂运动
         arm.execute(traj)
@@ -89,7 +78,7 @@ class MoveItIkDemo:
         arm.go()
         rospy.sleep(1)
         # 控制机械臂回到初始化位置
-        arm.set_named_target('home_arm')
+        arm.set_named_target('home')
         arm.go()
 
         # 关闭并退出moveit
