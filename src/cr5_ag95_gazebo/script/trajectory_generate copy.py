@@ -71,7 +71,7 @@ class TrajectoryDemo():
             arm_trajectory.points[i].positions = positions
             arm_trajectory.points[i].velocities = velocities
             arm_trajectory.points[i].accelerations = accelerations
-            arm_trajectory.points[i].time_from_start = rospy.Duration(0.005*i)
+            arm_trajectory.points[i].time_from_start = rospy.Duration(0.02*i)
             print(arm_trajectory.points[i])
 
         print(arm_trajectory.points)
@@ -97,7 +97,7 @@ class TrajectoryDemo():
         
 if __name__ == '__main__':
     try:
-        trajectory = process.call()
+        trajectory = process.call(load='cr5_ag95_gazebo/script/parameter.txt')
         print(trajectory)
         TrajectoryDemo(trajectory)
     except rospy.ROSInterruptException:
